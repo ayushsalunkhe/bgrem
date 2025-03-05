@@ -1,7 +1,11 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  command = "pip install -r netlify/functions/remove-bg/requirements.txt -t netlify/functions/remove-bg/"
+
+[dev]
+  publish = "public"
+  functions = "netlify/functions"
+  port = 8888
 
 [build.environment]
   PYTHON_VERSION = "3.9"
@@ -9,6 +13,11 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
 
 [[redirects]]
   from = "/*"
