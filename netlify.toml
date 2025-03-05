@@ -9,14 +9,15 @@
   """
 
 [build.environment]
-  # Force the use of precompiled Python to avoid build-time compilation issues
-  MISE_PYTHON_COMPILE = "false"
   PYTHON_VERSION = "3.9.18"
+  MISE_PYTHON_COMPILE = "false"
 
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["sharp"]
   included_files = ["requirements.txt"]
+
+[functions.remove-bg]
   memory = 1024
 
 [[redirects]]
