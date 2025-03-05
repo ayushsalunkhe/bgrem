@@ -6,9 +6,6 @@
     "build": "netlify build",
     "dev": "netlify dev"
   },
-  "dependencies": {
-    "@netlify/plugin-python": "^1.0.1"
-  },
   "devDependencies": {
     "netlify-cli": "^12.0.0"
   }
