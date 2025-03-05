@@ -1,92 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Background Remover</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .image-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .image-container img {
-            max-width: 45%;
-            height: auto;
-        }
-        #loading {
-            display: none;
-            text-align: center;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Background Remover</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-    <h1>Background Remover</h1>
-    <input type="file" id="imageInput" accept="image/*">
-    <div id="loading">Processing...</div>
-    <div class="image-container">
-        <img id="original" alt="Original">
-        <img id="processed" alt="Processed">
+    <!-- Animated background -->
+    <div class="animated-background">
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
     </div>
-    <a id="download" style="display: none;" download="processed.png">Download Processed Image</a>
 
-    <script>
-        document.getElementById('imageInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+    <main>
+        <div class="animate__animated animate__fadeIn">
+            <h1>BG Remover by Soham</h1>
+            <div class="gradient-text">Remove backgrounds in seconds</div>
+            
+            <div id="drop-area" class="upload-container">
+                <div class="upload-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Drag & drop your image here</p>
+                    <p class="or-text">OR</p>
+                    <form class="upload-form">
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                        <button type="button" id="browseBtn" class="browse-btn">Browse Files</button>
+                    </form>
+                    <p class="file-info">Supports JPG, PNG - Max 10MB</p>
+                </div>
+            </div>
+        </div>
 
-            const loading = document.getElementById('loading');
-            const original = document.getElementById('original');
-            const processed = document.getElementById('processed');
-            const download = document.getElementById('download');
+        <div id="result-section" class="results-container hidden animate__animated animate__fadeIn">
+            <h2 class="gradient-text">Your Image</h2>
+            
+            <div class="image-comparison">
+                <div class="image-card">
+                    <h3>Original</h3>
+                    <div class="image-wrapper">
+                        <img id="original-image" src="/placeholder.svg" alt="Original Image">
+                    </div>
+                </div>
+                <div class="image-card">
+                    <h3>Background Removed</h3>
+                    <div class="image-wrapper bg-checkered">
+                        <img id="processed-image" src="/placeholder.svg" alt="Processed Image">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="download-options">
+                <button id="download-btn" class="download-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Image
+                </button>
+                <button id="try-another-btn" class="try-another-btn">Try Another Image</button>
+            </div>
+        </div>
 
-            loading.style.display = 'block';
-            processed.style.display = 'none';
-            download.style.display = 'none';
+        <div class="tools-grid animate__animated animate__fadeIn animate__delay-1s">
+            <div class="tool-card">
+                <h2>High Quality</h2>
+                <p>Our AI model delivers precise edge detection for professional results</p>
+            </div>
+            <div class="tool-card">
+                <h2>Lightning Fast</h2>
+                <p>Process your images in seconds with our optimized algorithms</p>
+            </div>
+            <div class="tool-card">
+                <h2>100% Free</h2>
+                <p>No watermarks, no limits, completely free to use</p>
+            </div>
+        </div>
 
-            // Display original image
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                original.src = e.target.result;
-                original.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
+        <div class="content-section animate__animated animate__fadeIn animate__delay-2s">
+            <h2>How to use <span class="highlight-text">Background Remover</span></h2>
+            <ul>
+                <li>1. Upload your image by dragging and dropping or browsing files</li>
+                <li>2. Wait a few seconds while our AI processes your image</li>
+                <li>3. Preview the result with the background removed</li>
+                <li>4. Download your transparent PNG image</li>
+            </ul>
+        </div>
+    </main>
 
-            try {
-                // Send to Netlify function
-                const response = await fetch('/.netlify/functions/remove-bg', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        image: await toBase64(file)
-                    })
-                });
+    <footer>
+        <p class="footer-text">© 2025 AI Background Remover. All rights reserved.</p>
+    </footer>
 
-                const data = await response.json();
-                if (data.error) throw new Error(data.error);
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing your image...</p>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
 
-                processed.src = data.image;
-                processed.style.display = 'block';
-                download.href = data.image;
-                download.style.display = 'block';
-            } catch (error) {
-                alert('Error processing image: ' + error.message);
-            } finally {
-                loading.style.display = 'none';
-            }
-        });
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
+
