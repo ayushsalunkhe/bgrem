@@ -1,11 +1,11 @@
 [build]
   command = "npm run build"
   publish = "public"
-  functions = "netlify/functions"
+  functions = "built-lambda"
 
 [dev]
   publish = "public"
-  functions = "netlify/functions"
+  functions = "built-lambda"
   port = 8888
 
 [build.environment]
@@ -13,7 +13,7 @@
   NODE_VERSION = "16"
 
 [functions]
-  directory = "netlify/functions"
+  directory = "built-lambda"
   node_bundler = "esbuild"
   external_node_modules = ["encoding"]
 
