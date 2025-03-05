@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "description": "Background removal application",
   "scripts": {
-    "build": "netlify build",
+    "build": "npm run build:functions",
+    "build:functions": "netlify-lambda build netlify/functions",
+    "start": "netlify dev",
     "dev": "netlify dev"
   },
+  "dependencies": {
+    "@netlify/functions": "^1.6.0",
+    "encoding": "^0.1.13"
+  },
   "devDependencies": {
-    "netlify-cli": "^12.0.0"
+    "netlify-cli": "^12.0.0",
+    "netlify-lambda": "^2.0.15"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
