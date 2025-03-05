@@ -1,22 +1,15 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  command = "pip install -r requirements.txt -t netlify/functions/remove-bg/"
 
 [build.environment]
-  AWS_LAMBDA_JS_RUNTIME = "nodejs18.x"
   PYTHON_VERSION = "3.9"
 
 [[plugins]]
   package = "@netlify/plugin-python"
 
 [functions]
-  node_bundler = "esbuild"
-  included_files = ["requirements.txt"]
-
-[functions.remove-bg]
-  memory = 1024
-  runtime = "python3.9"
+  external_node_modules = ["sharp"]
 
 [[redirects]]
   from = "/*"
