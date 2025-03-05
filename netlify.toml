@@ -1,22 +1,21 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  node_version = "18"
+  command = "pip install -r netlify/functions/remove-bg/requirements.txt -t netlify/functions/remove-bg/"
 
 [build.environment]
-  NODE_VERSION = "18"
   PYTHON_VERSION = "3.9"
 
-[[plugins]]
-  package = "@netlify/plugin-python"
-  [plugins.inputs]
-    requirements = "netlify/functions/remove-bg/requirements.txt"
-
 [functions]
-  external_node_modules = ["sharp"]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
   status = 200
