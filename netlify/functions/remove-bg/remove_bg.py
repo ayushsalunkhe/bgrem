@@ -3,18 +3,12 @@ import json
 from rembg import remove, new_session
 import io
 from PIL import Image
-import subprocess
-import sys
-import os
-
-# Install dependencies if not already installed
-if not os.path.exists('site-packages'):
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt', '-t', '.'])
-
-session = new_session("u2net")
 
 def handler(event, context):
     try:
+        # Initialize session only when handling request
+        session = new_session("u2net")
+        
         # Parse the request body
         body = json.loads(event['body'])
         image_data = b64decode(body['image'].split(',')[1])
