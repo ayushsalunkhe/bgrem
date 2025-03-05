@@ -3,6 +3,13 @@ import json
 from rembg import remove, new_session
 import io
 from PIL import Image
+import subprocess
+import sys
+import os
+
+# Install dependencies if not already installed
+if not os.path.exists('site-packages'):
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt', '-t', '.'])
 
 session = new_session("u2net")
 
