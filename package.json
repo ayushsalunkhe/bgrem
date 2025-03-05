@@ -1,0 +1,8 @@
+{
+  "name": "bg-remover",
+  "version": "1.0.0",
+  "description": "Background removal application",
+  "dependencies": {
+    "@netlify/plugin-python": "^1.0.1"
+  }
+}
