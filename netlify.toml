@@ -1,15 +1,23 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  command = "pip install -r requirements.txt -t netlify/functions/remove-bg/"
+  command = """
+    curl -o /tmp/Python.tar.xz https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tar.xz &&
+    cd /tmp && tar xf Python.tar.xz &&
+    cd Python-3.9.18 && ./configure && make && make install &&
+    pip install -r requirements.txt -t netlify/functions/remove-bg/
+  """
 
 [build.environment]
   # Force the use of precompiled Python to avoid build-time compilation issues
   MISE_PYTHON_COMPILE = "false"
+  PYTHON_VERSION = "3.9.18"
 
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["sharp"]
+  included_files = ["requirements.txt"]
+  memory = 1024
 
 [[redirects]]
   from = "/*"
