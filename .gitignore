@@ -1,0 +1,8 @@
+node_modules
+.netlify
+dist
+built-lambda
+public/static/uploads/*
+public/static/processed/*
+!public/static/uploads/.gitkeep
+!public/static/processed/.gitkeep
