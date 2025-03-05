@@ -1,0 +1,17 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+  command = "pip install -r requirements.txt -t netlify/functions/remove-bg/"
+
+[build.environment]
+  # Force the use of precompiled Python to avoid build-time compilation issues
+  MISE_PYTHON_COMPILE = "false"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["sharp"]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

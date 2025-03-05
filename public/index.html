@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Background Remover</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 45%;
+            height: auto;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Background Remover</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <div id="loading">Processing...</div>
+    <div class="image-container">
+        <img id="original" alt="Original">
+        <img id="processed" alt="Processed">
+    </div>
+    <a id="download" style="display: none;" download="processed.png">Download Processed Image</a>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const loading = document.getElementById('loading');
+            const original = document.getElementById('original');
+            const processed = document.getElementById('processed');
+            const download = document.getElementById('download');
+
+            loading.style.display = 'block';
+            processed.style.display = 'none';
+            download.style.display = 'none';
+
+            // Display original image
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                original.src = e.target.result;
+                original.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            try {
+                // Send to Netlify function
+                const response = await fetch('/.netlify/functions/remove-bg', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        image: await toBase64(file)
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                processed.src = data.image;
+                processed.style.display = 'block';
+                download.href = data.image;
+                download.style.display = 'block';
+            } catch (error) {
+                alert('Error processing image: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+    </script>
+</body>
+</html>
