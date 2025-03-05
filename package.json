@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Background removal application",
   "scripts": {
-    "build": "npm run build:functions",
-    "build:functions": "netlify-lambda build netlify/functions",
+    "build": "netlify-lambda build src/lambda",
     "start": "netlify dev",
     "dev": "netlify dev"
   },
@@ -20,3 +19,4 @@
     "node": ">=16.0.0"
   }
 }
+s
