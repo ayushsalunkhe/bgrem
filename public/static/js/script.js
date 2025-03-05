@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const formData = new FormData()
       formData.append("image", file)
   
-      fetch("/upload", {
+      fetch("/.netlify/functions/remove-bg", {
         method: "POST",
         body: formData,
       })
@@ -245,5 +245,4 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
   })
-  
-  
+
